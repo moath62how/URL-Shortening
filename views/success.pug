@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .container.text-center
+    h1 URL Shortened Successfully! 🎉
+    p Your shortened URL is:
+
+    .input-group.my-3
+      input.form-control#shortUrl(type="text" value=shortUrl readonly)
+      button.btn.btn-primary#copyBtn(type="button") Copy
+
+    a.btn.btn-success.mt-3(href=shortUrl target="_blank") Open Shortened URL
+    br
+    a.btn.btn-secondary.mt-2(href="/") Shorten Another URL
+
+  script.
+    document.getElementById("copyBtn").addEventListener("click", function() {
+      const input = document.getElementById("shortUrl");
+      input.select();
+      document.execCommand("copy");
+      alert("Copied to clipboard: " + input.value);
+    });
+

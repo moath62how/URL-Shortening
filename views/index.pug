@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  form(action="/shorten" method="POST" class="mt-4")
+    div(class="mb-3")
+      input(type="text" name="url" class="form-control" placeholder="Enter URL..." required)
+    button(type="submit" class="btn btn-primary") Shorten
+
+  if shortenedUrl
+    div(class="alert alert-success mt-3")
+      strong Shortened URL: 
+      a(href=shortenedUrl target="_blank")= shortenedUrl
+

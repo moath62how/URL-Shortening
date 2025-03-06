@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .container.d-flex.justify-content-center.align-items-center(style="height: 100vh;")
+    .card.shadow-lg.p-4(style="max-width: 400px; width: 100%;")
+      h2.text-center.mb-3 Login
+      form#loginForm
+        .mb-3
+          label.form-label(for="email") Email:
+          input.form-control(type="email" id="email" name="email" required)
+        .mb-3
+          label.form-label(for="password") Password:
+          input.form-control(type="password" id="password" name="password" required)
+        button.btn.btn-primary.w-100(type="submit") Login
+        .text-center.mt-3
+            a(href="/signup") Don't have an account? Register
+
+  script.
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await axios.post("/api/v1/auth/login", { email, password });
+        Toastify({ text: "Login successful!", gravity: "top", position: "right", backgroundColor: "green" }).showToast();
+        window.location.href = "/";
+      } catch (error) {
+        Toastify({ text: error.response?.data?.message || "Invalid credentials", gravity: "top", position: "right", backgroundColor: "red" }).showToast();
+      }
+    });
+
