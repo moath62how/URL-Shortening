@@ -42,6 +42,44 @@ JWT_COOKIES_EXPIRES=time_in_days
 ```
 
 
+---
+
+## **API Endpoints**  
+
+### **Authentication Endpoints**  
+
+| Method   | Endpoint            | Description                           | Authentication |
+|----------|---------------------|---------------------------------------|---------------|
+| **POST**  | `/api/v1/auth/signup`  | Registers a new user                  | ❌ No        |
+| **POST**  | `/api/v1/auth/login`   | Authenticates a user and returns a token | ❌ No        |
+| **POST**  | `/api/v1/auth/logout`  | Logs out the user                      | ✅ Yes (Required) |
+
+---
+
+### **URL Shortening Endpoints**  
+
+| Method   | Endpoint                  | Description                                | Authentication |
+|----------|---------------------------|--------------------------------------------|---------------|
+| **POST**   | `/api/v1/shorten/`         | Creates a new shortened URL                | ✅ Yes (User) |
+| **GET**    | `/api/v1/shorten/`         | Retrieves all shortened URLs               | ✅ Yes (Admin) |
+| **GET**    | `/api/v1/shorten/{URL_id}` | Retrieves details of a specific URL        | ✅ Yes (Admin) |
+| **PATCH**  | `/api/v1/shorten/{URL_id}` | Updates a shortened URL                    | ✅ Yes (Admin) |
+| **DELETE** | `/api/v1/shorten/{URL_id}` | Deletes a shortened URL                    | ✅ Yes (Admin) |
+
+---
+
+### **User Management Endpoints**  
+
+| Method   | Endpoint              | Description                                | Authentication |
+|----------|-----------------------|--------------------------------------------|---------------|
+| **POST**   | `/api/v1/user/`        | Creates a new user                         | ✅ Yes (Required) |
+| **GET**    | `/api/v1/user/`        | Retrieves all users (Admin only)           | ✅ Yes (Admin) |
+| **GET**    | `/api/v1/user/{user_id}` | Retrieves details of a specific user       | ✅ Yes (Admin) |
+| **PATCH**  | `/api/v1/user/{user_id}` | Updates a specific user's details          | ✅ Yes (Admin) |
+| **DELETE** | `/api/v1/user/{user_id}` | Deletes a user                             | ✅ Yes (Admin) |
+
+---
+
 
 ## **Contributing**  
 Feel free to open issues and submit pull requests to improve the project! 🚀  
