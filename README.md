@@ -36,6 +36,9 @@ Create a `.env` file and add:
 ```
 MONGO_URI=your_mongodb_connection_string
 PORT=3000
+JWT_SECRET_PASSOWRD=a_secret_of_your_choice
+NODE_ENV=dev_or_prod
+JWT_COOKIES_EXPIRES=time_in_days
 ```
 
 
