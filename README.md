@@ -4,7 +4,7 @@
 # **URL Shortening Service**  
 
 ## **Overview**  
-This project is a **URL-shortening service** that provides both an **API** and a **front-end page** for users to shorten long URLs and track access counts. It is designed to be used in **GDG Express**, where I will be the instructor.  
+This project is a URL-shortening service that provides both an API and a front-end page for users to shorten long URLs and track access counts. It is designed to be used in backend instruction at GDG (Google Developer Group) at Suez Canal University (SCU).
 
 ## **Features**  
 ✅ Shorten long URLs  
