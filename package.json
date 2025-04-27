@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest --detectOpenHandles --forceExit",
-    "start": "nodemon server.js",
-    "start:prod": "node server.js"
+    "start": "node server.js",
+    "start:prod": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
