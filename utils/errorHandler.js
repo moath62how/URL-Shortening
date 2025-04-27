@@ -1,12 +1,18 @@
 const ErrorHandleMiddleware = (err, req, res, _next) => {
   err.statusCode = err.statusCode || 500;
-  console.log(err);
+
   if (err.name === "MongoServerError") {
-    handleDBError(err);
-  } else if (err.name == "TokenExpiredError") {
-    handleJWTExpired(res, err);
-  } else if ((err.name = "JsonWebTokenError")) {
-    handleJWTinvaild(res, err);
+    const { status, message } = handleDBError(err);
+    sendError(res, req, status, message);
+    res.clearCookie("token");
+  } else if (err.name === "TokenExpiredError") {
+    const { status, message } = handleJWTExpired();
+    sendError(res, req, status, message);
+    res.clearCookie("token");
+  } else if (err.name === "JsonWebTokenError") {
+    const { status, message } = handleJWTInvalid(err);
+    sendError(res, req, status, message);
+    res.clearCookie("token");
   } else if (process.env.NODE_ENV === "production") {
     sendErrProd(err, req, res);
   } else {
@@ -14,22 +20,30 @@ const ErrorHandleMiddleware = (err, req, res, _next) => {
   }
 };
 
+const sendError = (res, req, status, message) => {
+  if (req.originalUrl.startsWith("/api")) {
+    res.status(status).json({ status: "error", message });
+  } else {
+    res.status(status).render("error", { code: status, message });
+  }
+};
+
 const sendErrProd = (err, req, res) => {
   if (req.originalUrl.startsWith("/api")) {
-    res.status(err.statusCode).render("error", {
-      code: err.statusCode,
-      message: err.message,
-    });
-  } else {
     res.status(err.statusCode).json({
       status: "error",
       message: err.message || "Something went wrong!",
+    });
+  } else {
+    res.status(err.statusCode).render("error", {
+      code: err.statusCode,
+      message: err.message,
     });
   }
 };
 
 const sendErrDev = (err, req, res) => {
-  console.log(err);
+  console.log(req.originalUrl);
   if (req.originalUrl.startsWith("/api")) {
     res.status(err.statusCode).json({
       status: "error",
@@ -44,28 +58,31 @@ const sendErrDev = (err, req, res) => {
   }
 };
 
+const handleDuplicateFieldsDB = () => {
+  return "Duplicate field value, please use another value!";
+};
+
 const handleDBError = (err) => {
-  const statusCode = 400;
-  const errors = Object.values(err.errors).map((e) => e.message);
-  message = errors.join(", ");
-
-  res.status(statusCode).json({
-    status: "error",
+  let message = "Unknown error happened";
+  if (err.code === 11000) message = handleDuplicateFieldsDB();
+  return {
+    status: 400,
     message,
-  });
+  };
 };
 
-const handleJWTExpired = (res, _err) => {
-  res.status(401).json({
-    status: "error",
-    message: "Token has expired please login agian",
-  });
+const handleJWTExpired = () => {
+  return {
+    status: 401,
+    message: "Token has expired, please login again",
+  };
 };
 
-const handleJWTinvaild = (res, err) => {
-  res.status(201).json({
-    status: "error",
+const handleJWTInvalid = (err) => {
+  return {
+    status: 401,
     message: err.message,
-  });
+  };
 };
+
 export { ErrorHandleMiddleware };

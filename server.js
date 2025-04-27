@@ -1,7 +1,7 @@
 import app from "./app.js";
 const port = process.env.PORT || 3000;
 import { connect } from "mongoose";
-connect("mongodb://localhost:27017/URLShortener")
+connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to the database successfully");
   })

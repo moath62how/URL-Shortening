@@ -10,11 +10,12 @@ export const renderLogin = (_req, res, _next) => {
   res.render("login");
 };
 
-export const renderGetShortUrl = (req, res) => {
+export const renderGetShortUrl = (_req, res) => {
   res.render("index");
 };
 export const renderPostShortUrl = async (req, res, next) => {
-  const { url } = req.body;
+  let { url } = req.body;
+  if (!url.includes("https://")) url = "https://" + url;
   const { user } = req;
   try {
     const shortenUrl = await ShortenedURL.create({

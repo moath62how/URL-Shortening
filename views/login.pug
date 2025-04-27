@@ -22,9 +22,10 @@ block content
       const password = document.getElementById("password").value;
 
       try {
-        const response = await axios.post("/api/v1/auth/login", { email, password });
+          const response = await axios.post("/api/v1/auth/login", { email, password });
+          console.log(response)
         Toastify({ text: "Login successful!", gravity: "top", position: "right", backgroundColor: "green" }).showToast();
-        window.location.href = "/";
+       window.location.href = "/";
       } catch (error) {
         Toastify({ text: error.response?.data?.message || "Invalid credentials", gravity: "top", position: "right", backgroundColor: "red" }).showToast();
       }

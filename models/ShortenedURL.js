@@ -1,14 +1,10 @@
 import { Schema, model, Types } from "mongoose";
-
+import validator from "validator";
 const ShortenedURLSchema = new Schema({
   url: {
     type: String,
     validate: {
-      validator: function (URL) {
-        return /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
-          URL
-        );
-      },
+      validator: (e) => validator.isURL(e),
       message: (props) => `${props.value} is not a valid URL!`,
     },
     required: [true, "URL is required"],

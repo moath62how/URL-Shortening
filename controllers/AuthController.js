@@ -89,15 +89,19 @@ export const protect = async (req, _res, next) => {
 };
 
 export const isLoggedIn = async (req, res, next) => {
-  if (req.cookies.token) {
-    const decoded = await promisify(jwt.verify)(
-      req.cookies.token,
-      process.env.JWT_SECRET_PASSOWRD
-    );
-    const user = await User.findById(decoded.id);
-    if (!user) return next();
-    res.locals.user = user;
-    return next();
+  try {
+    if (req.cookies.token) {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.token,
+        process.env.JWT_SECRET_PASSOWRD
+      );
+      const user = await User.findById(decoded.id);
+      if (!user) return next();
+      res.locals.user = user;
+      return next();
+    }
+  } catch (e) {
+    return next(e);
   }
   next();
 };

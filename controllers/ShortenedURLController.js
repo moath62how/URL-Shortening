@@ -43,9 +43,10 @@ export const getShortenedURL = async (req, res, next) => {
 };
 
 export const createShorttenedURL = async (req, res, next) => {
-  const { url } = req.body;
+  let { url } = req.body;
   const { _id } = req.user;
-  console.log(req.user);
+  if (!url.includes("https://")) url = "https://" + url;
+
   try {
     const shortCode = randHashGenerator();
     const data = await ShortenedURL.create({ url, shortCode, user: _id });
