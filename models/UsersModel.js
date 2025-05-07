@@ -48,4 +48,7 @@ userSchema.methods.correctPassword = async function (candidatePassword) {
 };
 
 const User = model("User", userSchema);
+User.init().catch((err) => {
+  console.error("Error creating indexes:", err.message);
+});
 export default User;
