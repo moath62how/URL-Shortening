@@ -114,6 +114,7 @@ export const logout = (_req, res, _next) => {
 export const permitOnly =
   (...roles) =>
   (req, _res, next) => {
+    console.log(req.user);
     if (roles.includes(req.user?.role)) return next();
     return next(new AppError(403, "You do not have permission!"));
   };
